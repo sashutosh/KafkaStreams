@@ -1,6 +1,8 @@
 package com.example.util.datagen;
 
+import com.example.model.PublicTradedCompany;
 import com.example.model.Purchase;
+import com.example.model.StockTransaction;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Finance;
 import com.github.javafaker.Name;
@@ -123,6 +125,54 @@ public class DataGenerator {
         return stores;
     }
 
+    public static List<PublicTradedCompany> stockTicker(int numberCompanies) {
+        return generatePublicTradedCompanies(numberCompanies);
+    }
+
+    public static List<PublicTradedCompany> generatePublicTradedCompanies(int numberCompanies) {
+        List<PublicTradedCompany> companies = new ArrayList<>();
+        Faker faker = new Faker();
+        Random random = new Random();
+        for (int i = 0; i < numberCompanies; i++) {
+            String name = faker.company().name();
+            String stripped = name.replaceAll("[^A-Za-z]", "");
+            int start = random.nextInt(stripped.length() - 4);
+            String symbol = stripped.substring(start, start + 4);
+            double volatility = Double.parseDouble(faker.options().option("0.01", "0.02", "0.03", "0.04", "0.05", "0.06", "0.07", "0.08", "0.09"));
+            double lastSold = faker.number().randomDouble(2, 15, 150);
+            String sector = faker.options().option("Energy", "Finance", "Technology", "Transportation", "Health Care");
+            String industry = faker.options().option("Oil & Gas Production", "Coal Mining", "Commercial Banks", "Finance/Investors Services", "Computer Communications Equipment", "Software Consulting", "Aerospace", "Railroads", "Major Pharmaceuticals");
+            companies.add(new PublicTradedCompany(volatility, lastSold, symbol, name, sector, industry));
+        }
+
+        return companies;
+
+    }
+
+    public static List<StockTransaction> generateStockTransactions(List<Customer> customers, List<PublicTradedCompany> companies, int number) {
+        List<StockTransaction> transactions = new ArrayList<>(number);
+        Faker faker = new Faker();
+        for (int i = 0; i < number; i++) {
+            int numberShares = faker.number().numberBetween(100, 50000);
+            Customer customer = customers.get(faker.number().numberBetween(0, customers.size()));
+            PublicTradedCompany company = companies.get(faker.number().numberBetween(0, companies.size()));
+            Date transactionDate = timestampGenerator.get();
+            StockTransaction transaction = StockTransaction.newBuilder().withCustomerId(customer.customerId).withTransactionTimestamp(transactionDate)
+                    .withIndustry(company.getIndustry()).withSector(company.getSector()).withSharePrice(company.updateStockPrice()).withShares(numberShares)
+                    .withSymbol(company.getSymbol()).withPurchase(true).build();
+            transactions.add(transaction);
+        }
+        return transactions;
+    }
+
+    public static List<String> generateFinancialNews() {
+        List<String> news = new ArrayList<>(9);
+        Faker faker = new Faker();
+        for (int i = 0; i < 9; i++) {
+            news.add(faker.company().bs());
+        }
+        return news;
+    }
 
     public static class Customer {
         private String firstName;
