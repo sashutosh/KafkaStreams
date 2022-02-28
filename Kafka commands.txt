@@ -1,0 +1,110 @@
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic color-output1 \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+--property key.deserializer=org.apache.kafka.common.serialization.StringDeserialzer \
+--property value.deserializer=org.apache.kafka.common.serialization.LongDeserialzer \
+
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic "color-input" --partitions 1 --replication-factor 1
+ 
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic "user-keys-and-color" --partitions 1 --replication-factor 1
+ 
+ 
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --list
+ 
+ 
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic "color-input" --property "parse.key=true" --property "key.separator=,"
+ 
+ kafka-console-producer.sh --bootstrap-server localhost:9092 --topic "color-input2"
+ 
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic "bank-transactions" --partitions 1 --replication-factor 1
+ 
+ kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic bank-tansactions \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+
+ ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic "bank-balance-one" --partitions 1 --replication-factor 1
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic bank-balance-once \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic user-purchases --replication-factor 1 --partitions 3
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic user-table --replication-factor 1 --partitions 2 --config cleanup.policy=compact
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic user-purchases-enriched-inner-join --replication-factor 1 --partitions 3
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic user-purchases \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic user-table \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic user-purchases-enriched-inner-join \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic transactions --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic rewards --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic patterns --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic customer-transaction --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic stock-transaction-topic --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic share-volume --replication-factor 1 --partitions 1
+
+./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic stock-volume-by-company --replication-factor 1 --partitions 1
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic purchases \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic customer-transaction \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true
+
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic stock-volume-by-company \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true
+
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic color \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true 
